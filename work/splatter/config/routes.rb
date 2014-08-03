@@ -1,5 +1,8 @@
 Splatter::Application.routes.draw do
+  resources :splatts, except: [:new, :edit]
   resources :users, except: [:new, :edit]
+  get 'users/splatts/:id' => 'users#splatts'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

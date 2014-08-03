@@ -48,8 +48,16 @@ class UsersController < ApplicationController
     head :no_content
   end
   
+  # whitelist create user parameters
   def user_params(params)
 	params.permit(:email, :password, :name, :blurb)
   end
   
+  # fetch a users splatts
+  def splatts
+    @user = User.find(params[:id])
+	
+	render json: @user.splatts
+  end
+    
 end
