@@ -84,22 +84,27 @@ class UsersController < ApplicationController
   # make follower
   @follower = User.find(params[:id])
   # make followed
-  @followed = User.find(params[:follows_id]
+  @followed = User.find(params[:follows_id])
   
-  if @follower.follows << @followed  
-     head :no_content
-  else
+    if @follower.follows << @followed  
+      head :no_content
+    else
      render json @follower.errors, status: :unprocessable_entity
+    end
+
   end
 
   # remove a follower
   def delete_follows
   @follower = User.find(params[:id])
-  @followed = User.find(params[:follows_id]
+  @followed = User.find(params[:follows_id])
   
-  if @follower.follows.delete(followed)
-    head :no_content
-  else
-    render json @follower.errors, status: :unprocessable_entity
+    if @follower.follows.delete(followed)
+      head :no_content
+    else
+      render json @follower.errors, status: :unprocessable_entity
+    end
+
   end
+
 end
