@@ -50,14 +50,56 @@ class UsersController < ApplicationController
   
   # whitelist create user parameters
   def user_params(params)
-	params.permit(:email, :password, :name, :blurb)
+    params.permit(:email, :password, :name, :blurb)
   end
   
   # fetch a users splatts
   def splatts
     @user = User.find(params[:id])
 	
-	render json: @user.splatts
+    render json: @user.splatts
   end
     
+  # follows methods
+ 
+  # show who a given user follows
+  def show_follows
+    @user = User.find(params[:id])
+
+    render json: @user.follows
+  end
+
+  # show who follows a given user
+  def show_followers
+    @user = User.find(params[:id])
+
+    render json: @user.followed_by
+  end
+
+  # add a follower
+  def add_follows
+  # params[:id] is user who follows
+  # params[:follows_id] is user to be followed
+   
+  # make follower
+  @follower = User.find(params[:id])
+  # make followed
+  @followed = User.find(params[:follows_id]
+  
+  if @follower.follows << @followed  
+     head :no_content
+  else
+     render json @follower.errors, status: :unprocessable_entity
+  end
+
+  # remove a follower
+  def delete_follows
+  @follower = User.find(params[:id])
+  @followed = User.find(params[:follows_id]
+  
+  if @follower.follows.delete(followed)
+    head :no_content
+  else
+    render json @follower.errors, status: :unprocessable_entity
+  end
 end
