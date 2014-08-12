@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   # GET /users
   # GET /users.json
   def index
@@ -12,7 +13,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    render json: @user
+    #render json: @user
   end
 
   # POST /users
@@ -107,4 +108,10 @@ class UsersController < ApplicationController
 
   end
 
+  # GET /users/splatts_feed/1
+  def splatts_feed
+    @feed = Splatt.find_by_sql("SELECT users.name, splatts.created_at, splatts.body FROM users JOIN follows on users.id = follows.follower_id JOIN splatts on follows.followed_id = splatts.user_id WHERE users.id = #{params[:id]} ORDER BY splatts.created_at DESC")
+
+    render json: @feed
+  end
 end
