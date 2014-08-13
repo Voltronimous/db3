@@ -1,4 +1,10 @@
 class User < ActiveRecord::Base
+
+	#validations
+	validates :name, presence: true
+	validates :email, uniqueness: true
+	
+
 	has_many :splatts
 
 	has_and_belongs_to_many :follows,
