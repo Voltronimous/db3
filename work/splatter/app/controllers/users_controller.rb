@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 
-    render json: @users
+    #render json: @users
   end
 
   # GET /users/1
@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
+    #unfiltered output before switch to jbuilder view
     #render json: @user
   end
 
@@ -55,15 +56,19 @@ class UsersController < ApplicationController
   end
   
   # fetch a users splatts
+  # GET /users/splatts/1
+  # GET /users/splatts/1.json
   def splatts
     @user = User.find(params[:id])
-	
-    render json: @user.splatts
+    
+    @splatts = @user.splatts	
+    #render json: @user.splatts
   end
     
   # follows methods
- 
+  # 
   # show who a given user follows
+  # GET /users/show_follows/1
   def show_follows
     @user = User.find(params[:id])
 
@@ -71,6 +76,7 @@ class UsersController < ApplicationController
   end
 
   # show who follows a given user
+  # GET /users/show_followers/1
   def show_followers
     @user = User.find(params[:id])
 
@@ -79,26 +85,25 @@ class UsersController < ApplicationController
 
   # add a follower
   def add_follows
-  # params[:id] is user who follows
-  # params[:follows_id] is user to be followed
+    # params[:id] is user who follows
+    # params[:follows_id] is user to be followed
    
-  # make follower
-  @follower = User.find(params[:id])
-  # make followed
-  @followed = User.find(params[:follows_id])
+    # make follower
+    @follower = User.find(params[:id])
+    # make followed
+    @followed = User.find(params[:follows_id])
   
     if @follower.follows << @followed  
       head :no_content
     else
      render json @follower.errors, status: :unprocessable_entity
     end
-
   end
 
   # remove a follower
   def delete_follows
-  @follower = User.find(params[:id])
-  @followed = User.find(params[:follows_id])
+    @follower = User.find(params[:id])
+    @followed = User.find(params[:follows_id])
   
     if @follower.follows.delete(followed)
       head :no_content
@@ -108,10 +113,10 @@ class UsersController < ApplicationController
 
   end
 
-  # GET /users/splatts_feed/1
+  # GET /users/splatts-feed/1
   def splatts_feed
     @feed = Splatt.find_by_sql("SELECT users.name, splatts.created_at, splatts.body FROM users JOIN follows on users.id = follows.follower_id JOIN splatts on follows.followed_id = splatts.user_id WHERE users.id = #{params[:id]} ORDER BY splatts.created_at DESC")
 
-    render json: @feed
+    #render json: @feed
   end
 end
