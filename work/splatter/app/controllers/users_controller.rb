@@ -107,7 +107,7 @@ class UsersController < ApplicationController
     @follower = User.find(params[:id])
     @followed = User.find(params[:follows_id])
   
-    if @follower.follows.delete(followed)
+    if @follower.follows.delete(@followed)
       head :no_content
     else
       render json @follower.errors, status: :unprocessable_entity
@@ -117,7 +117,7 @@ class UsersController < ApplicationController
 
   # GET /users/splatts-feed/1
   def splatts_feed
-    @feed = Splatt.find_by_sql("SELECT users.name, splatts.created_at, splatts.body FROM users JOIN follows on users.id = follows.follower_id JOIN splatts on follows.followed_id = splatts.user_id WHERE users.id = #{params[:id]} ORDER BY splatts.created_at DESC")
+    @feed = Splatt.find_by_sql("SELECT users.name, splatts.created_at, splatts.body FROM users JOIN follows on users.id = follows.followed_id JOIN splatts on follows.followed_id = splatts.user_id WHERE follows.follower_id = #{params[:id]} ORDER BY splatts.created_at DESC")
 
     #render json: @feed
   end

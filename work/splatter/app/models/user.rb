@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
 	#validations
 	validates :name, presence: true
 	validates :name, uniqueness: true
-	validates :email, uniqueness: true
 	validates :email, uniqueness: { case_sensitive: false}
 	validates :password, length: {minimum: 8}, if: :strong?
 

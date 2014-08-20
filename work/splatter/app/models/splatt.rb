@@ -1,8 +1,9 @@
 class Splatt < ActiveRecord::Base
 
   #validations
-	validates :splatt, presence: true
-	validates :splatt, length: { maximum 160 }
+	validates :body, presence: true
+	validates :body, length: { maximum: 160 }
+	validates :user_id, presence: true
 
   belongs_to :user
 end
