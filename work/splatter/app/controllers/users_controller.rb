@@ -71,8 +71,9 @@ class UsersController < ApplicationController
   # GET /users/show_follows/1
   def show_follows
     @user = User.find(params[:id])
-
-    render json: @user.follows
+    
+    @users = @user.follows
+    #render json: @user.follows
   end
 
   # show who follows a given user
@@ -80,7 +81,8 @@ class UsersController < ApplicationController
   def show_followers
     @user = User.find(params[:id])
 
-    render json: @user.followed_by
+    @users = @user.followed_by
+    #render json: @user.followed_by
   end
 
   # add a follower
