@@ -2,8 +2,19 @@ class User < ActiveRecord::Base
 
 	#validations
 	validates :name, presence: true
+	validates :name, uniqueness: true
 	validates :email, uniqueness: true
+	validates :email, uniqueness: { case_sensitive: false}
+	validates :password, length: {minimum: 8}, if: :strong?
+
+	def strong?
+		password =~ /.*\d+.*/ && \
+		password =~ /.*[a-z]+.*/ && \
+		password =~ /.*[A-Z].*/
+	end
 	
+	validates :blurb, length: { maximum: 1000 }
+
 
 	has_many :splatts
 
