@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :set_headers
 
   # GET /users
   # GET /users.json
@@ -48,11 +49,6 @@ class UsersController < ApplicationController
     @user.destroy
 
     head :no_content
-  end
-  
-  # whitelist create user parameters
-  def user_params(params)
-    params.permit(:email, :password, :name, :blurb)
   end
   
   # fetch a users splatts
@@ -121,4 +117,16 @@ class UsersController < ApplicationController
 
     #render json: @feed
   end
+
+private
+  # whitelist create user parameters
+  def user_params(params)
+    params.permit(:email, :password, :name, :blurb)
+  end
+
+  # set header for access control
+  def set_headers 
+    headers['Access-Control-Allow-Origin'] = '*';
+  end
+
 end
