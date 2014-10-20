@@ -5,5 +5,4 @@ class User < Hashie::Dash
 	property :blurb
 	property :follows
 	property :followers
-
 end
